@@ -11,6 +11,10 @@
 - 📚 **模型訓練**: 支援添加 DDL、文檔和 SQL 範例來訓練模型
 - 📝 **自動文檔**: FastAPI 自動生成 Swagger UI 互動式 API 文檔
 - 🔒 **類型安全**: 使用 Pydantic 進行資料驗證
+- 💬 **對話管理**: 支援多輪對話和上下文理解
+- 🔄 **SSE 流式響應**: 實時流式返回查詢結果和解釋
+- 🎯 **智能建議**: 使用 AI 生成相關的後續查詢建議
+- 🔍 **智能表匹配**: 自動識別問題中的關鍵詞並匹配相關數據表
 
 ### 前端功能
 - 💬 **智能對話界面**: 現代化的聊天機器人 UI
@@ -207,7 +211,21 @@ GenAI/
 │   ├── main.py              # FastAPI 主應用
 │   ├── config.py            # 配置管理
 │   ├── models.py            # Pydantic 資料模型
-│   └── vanna_client.py      # Vanna AI 客戶端
+│   ├── vanna_client.py      # Vanna AI 客戶端
+│   ├── conversation_manager.py  # 對話管理模組
+│   ├── routes/              # API 路由模組
+│   │   ├── __init__.py
+│   │   ├── chat.py          # 聊天路由
+│   │   ├── training.py      # 訓練路由
+│   │   ├── database.py      # 數據庫路由
+│   │   ├── conversations.py # 對話管理路由
+│   │   ├── health.py        # 健康檢查路由
+│   │   └── root.py          # 根路由
+│   ├── utils/               # 工具模組
+│   │   ├── __init__.py
+│   │   ├── formatters.py    # 格式化工具
+│   │   └── suggestions.py   # 建議生成工具
+│   └── services/            # 服務層
 ├── frontend/                 # 前端應用
 │   ├── src/
 │   │   ├── components/      # Vue 組件
@@ -225,8 +243,10 @@ GenAI/
 │   ├── package.json
 │   ├── vite.config.ts
 │   └── README.md            # 前端文檔
+├── conversations_data/       # 對話數據存儲目錄
 ├── venv/                     # Python 虛擬環境
 ├── .env                      # 環境變數配置
+├── .env.example             # 環境變數範例
 ├── requirements.txt          # Python 依賴
 ├── start-all.sh             # 完整啟動腳本
 ├── start-frontend.sh        # 前端啟動腳本
@@ -272,30 +292,31 @@ GET /api/health
 POST /api/chat
 ```
 
-發送自然語言問題，獲取 SQL 查詢和結果。
+發送自然語言問題，使用 SSE（Server-Sent Events）流式響應返回 SQL 查詢和結果。
 
 **請求範例**:
 ```bash
 curl -X POST "http://localhost:8000/api/chat" \
   -H "Content-Type: application/json" \
   -d '{
-    "question": "顯示所有客戶的訂單總數"
+    "question": "顯示所有客戶的訂單總數",
+    "conversation_id": "conv_123456"
   }'
 ```
 
-**回應範例**:
-```json
-{
-  "question": "顯示所有客戶的訂單總數",
-  "sql": "SELECT customer_id, COUNT(*) as order_count FROM orders GROUP BY customer_id",
-  "result": [
-    {"customer_id": 1, "order_count": 5},
-    {"customer_id": 2, "order_count": 3}
-  ],
-  "explanation": "查詢結果顯示每位客戶的訂單數量",
-  "error": null
-}
-```
+**請求參數**:
+- `question` (必填): 用戶的自然語言問題
+- `conversation_id` (可選): 對話 ID，用於連續對話和上下文理解
+
+**響應格式**:
+使用 SSE 流式響應，包含以下事件類型：
+- `status`: 狀態更新（idle、working、success、error）
+- `explanation`: 查詢解釋文字（流式輸出）
+- `suggestions`: 推薦的後續問題
+- `error`: 錯誤訊息
+- `done`: 查詢完成標記
+
+**注意**: 此端點返回的是 SSE 流式響應，需要使用支持 SSE 的客戶端來處理。
 
 ### 3. 訓練模型
 
@@ -366,6 +387,97 @@ GET /api/training-data
 
 查看已添加到模型中的所有訓練資料。
 
+### 6. 外部數據庫問題建議
+
+```bash
+POST /api/database/questions
+```
+
+連接外部數據庫並獲取可詢問的問題建議。系統會自動分析數據庫結構，過濾出用戶關心的表，並生成相關的查詢建議。
+
+**請求範例**:
+```bash
+curl -X POST "http://localhost:8000/api/database/questions" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "connection_string": "mysql://user:password@host:3306/database"
+  }'
+```
+
+**請求參數**:
+- `connection_string` (必填): MySQL 連接字符串，格式：`mysql://user:password@host:port/database`
+
+**回應範例**:
+```json
+{
+  "suggestions": [
+    {
+      "question": "顯示所有用戶資料",
+      "description": "查詢users表中的所有記錄"
+    }
+  ],
+  "count": 10,
+  "database_name": "my_database",
+  "table_count": 5
+}
+```
+
+**注意**: 
+- 只會為有數據（行數 > 0）的表生成建議
+- 系統會自動過濾掉系統表、配置表等用戶不關心的表
+- 使用 AI 分析表結構並生成中文表名
+
+### 7. 對話管理
+
+#### 7.1 創建對話
+
+```bash
+POST /api/conversations
+```
+
+創建一個新的對話。
+
+**請求範例**:
+```bash
+curl -X POST "http://localhost:8000/api/conversations" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "數據查詢對話"
+  }'
+```
+
+#### 7.2 獲取對話列表
+
+```bash
+GET /api/conversations?limit=100&offset=0
+```
+
+獲取所有對話列表。
+
+#### 7.3 獲取對話詳情
+
+```bash
+GET /api/conversations/{conversation_id}
+```
+
+獲取特定對話的詳情。
+
+#### 7.4 刪除對話
+
+```bash
+DELETE /api/conversations/{conversation_id}
+```
+
+刪除指定的對話。
+
+#### 7.5 獲取對話消息
+
+```bash
+GET /api/conversations/{conversation_id}/messages
+```
+
+獲取指定對話中的所有消息。
+
 ## 使用流程
 
 ### 初次使用建議
@@ -424,21 +536,6 @@ POST /api/chat
 # 自動生成 SQL 並返回結果
 ```
 
-## 專案結構
-
-```
-GenAI/
-├── app/
-│   ├── __init__.py          # 套件初始化
-│   ├── main.py              # FastAPI 應用主程式
-│   ├── config.py            # 配置管理
-│   ├── models.py            # Pydantic 資料模型
-│   └── vanna_client.py      # Vanna AI 客戶端封裝
-├── requirements.txt         # Python 依賴
-├── .env.example            # 環境變數範例
-├── .gitignore              # Git 忽略文件
-└── README.md               # 使用說明（本文件）
-```
 
 ## 故障排除
 
@@ -466,6 +563,16 @@ GenAI/
 - 添加更多訓練資料（DDL、文檔、SQL 範例）
 - 確保問題表述清晰明確
 - 查看訓練資料是否完整覆蓋數據庫結構
+- 使用 `conversation_id` 進行連續對話，提供更多上下文
+
+### 問題 4: AI 返回解釋而不是 SQL
+
+**錯誤訊息**: "生成的內容不是有效的 SQL"
+
+**解決方法**:
+- 檢查問題中提到的表名是否在資料庫中存在
+- 系統會自動列出可用的表名，請使用實際存在的表名
+- 確保相關表的 DDL 已經添加到訓練資料中
 
 ## 開發指南
 
@@ -492,10 +599,12 @@ GenAI/
 
 ## 後續擴展建議
 
+- [x] 實作對話歷史記錄功能
+- [x] 支援生成圖表和視覺化
+- [x] AI 生成相關查詢建議
+- [x] 智能表名匹配和關鍵詞識別
 - [ ] 添加用戶認證和授權
-- [ ] 實作對話歷史記錄功能
 - [ ] 添加查詢結果緩存
-- [ ] 支援生成圖表和視覺化
 - [ ] 實作 WebSocket 支援實時對話
 - [ ] 添加多語言支援
 - [ ] 整合更多數據庫類型（PostgreSQL、SQLite 等）

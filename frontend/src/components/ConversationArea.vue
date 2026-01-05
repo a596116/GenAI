@@ -112,8 +112,7 @@ const chatListRef = ref<InstanceType<typeof ChatList>>()
 const apiEndpoint = 'http://localhost:8000/api'
 
 // 數據庫連接字符串
-const databaseConnectionString =
-  'mysql://haodai:Aa0988640301@43.153.169.165:3306/haodai-server-new'
+const databaseConnectionString = 'mysql://user:password@host:3306/database'
 
 // 問題建議列表
 const examplePrompts = ref<string[]>([])
