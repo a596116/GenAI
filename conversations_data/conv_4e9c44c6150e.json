@@ -1,0 +1,23 @@
+{
+  "id": "conv_4e9c44c6150e",
+  "title": "顯示所有Notion數據庫表的name",
+  "created_at": "2026-01-03T20:20:34.862373",
+  "updated_at": "2026-01-03T20:20:48.874960",
+  "message_count": 2,
+  "messages": [
+    {
+      "id": "msg_b4d232882f2c",
+      "conversation_id": "conv_4e9c44c6150e",
+      "role": "user",
+      "content": "顯示所有Notion數據庫表的name",
+      "created_at": "2026-01-03T20:20:43.770580"
+    },
+    {
+      "id": "msg_265185da9608",
+      "conversation_id": "conv_4e9c44c6150e",
+      "role": "assistant",
+      "content": "\n\n**查詢結果：** 共 1 條記錄\n\n```table\noption = {\n  columns: [\n    {\n      label: 'name',\n      prop: 'name',\n      width: 80,\n    },\n  ],\n  data: [\n    {\n      name: '知識庫',\n    },\n  ],\n}\n```",
+      "created_at": "2026-01-03T20:20:48.874960"
+    }
+  ]
+}

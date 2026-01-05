@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>測試 - 獨立版本</title>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        background: #f5f7fa;
+      }
+
+      .card {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+      }
+
+      h1 {
+        color: #333;
+        margin-bottom: 10px;
+      }
+
+      .status {
+        display: inline-block;
+        padding: 8px 16px;
+        background: #10b981;
+        color: white;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      p {
+        color: #666;
+        line-height: 1.6;
+        margin: 15px 0;
+      }
+
+      .info {
+        background: #f0f9ff;
+        border-left: 3px solid #3b82f6;
+        padding: 15px;
+        margin: 20px 0;
+        border-radius: 4px;
+      }
+    </style>
+
+    <!-- 引入樣式 -->
+    <link rel="stylesheet" href="./dist/style.css" />
+  </head>
+  <body>
+    <div class="card">
+      <h1>🎉 獨立版本測試</h1>
+      <span class="status" id="status">載入中...</span>
+
+      <p>
+        這個頁面<strong>只引入了一個 script 標籤</strong>，沒有引入 Vue.js！
+      </p>
+
+      <div class="info">
+        <strong>✅ 引入的文件：</strong><br />
+        • style.css (4.4 KB)<br />
+        • hao-chatbot.standalone.umd.js (108 KB / gzip: 42 KB)
+      </div>
+
+      <p>點擊右下角的按鈕開始聊天！</p>
+    </div>
+
+    <div id="chatbot"></div>
+
+    <!-- 只需這一個 script！ -->
+    <!-- <script src="./dist/index.standalone.umd.js"></script> -->
+    <script src="https://unpkg.com/hao-chatbot/dist/index.standalone.umd.js"></script>
+
+    <script>
+      if (typeof HaoChatbot !== 'undefined') {
+        document.getElementById('status').textContent = '✅ 載入成功'
+        document.getElementById('status').style.background = '#10b981'
+
+        // 初始化 chatbot
+        const chatbot = HaoChatbot.mount({
+          title: '🤖 測試助手123',
+          placeholder: '測試訊息...',
+          position: {
+            bottom: '20px',
+            right: '20px',
+          },
+        })
+        setTimeout(() => {
+          chatbot.setToken('1234567890')
+        }, 5000)
+
+        console.log('✅ Chatbot 已成功初始化（無需 Vue.js）')
+      } else {
+        document.getElementById('status').textContent = '❌ 載入失敗'
+        document.getElementById('status').style.background = '#ef4444'
+        console.error('❌ HaoChatbot 未載入')
+      }
+    </script>
+  </body>
+</html>

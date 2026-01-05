@@ -1,0 +1,93 @@
+{
+  "id": "conv_663b047546ba",
+  "title": "統計notion各個標籤頁面的數量",
+  "created_at": "2026-01-03T20:15:41.478248",
+  "updated_at": "2026-01-03T20:26:02.340040",
+  "message_count": 12,
+  "messages": [
+    {
+      "id": "msg_c51bdfec84d5",
+      "conversation_id": "conv_663b047546ba",
+      "role": "user",
+      "content": "統計notion各個標籤頁面的數量",
+      "created_at": "2026-01-03T20:15:41.533068"
+    },
+    {
+      "id": "msg_b270d7697b56",
+      "conversation_id": "conv_663b047546ba",
+      "role": "assistant",
+      "content": "\n\n**查詢結果：** 共 12 條記錄\n\n```table\noption = {\n  columns: [\n    {\n      label: 'tag_name',\n      prop: 'tag_name',\n      width: 80,\n    },\n    {\n      label: 'page_count',\n      prop: 'page_count',\n      width: 80,\n    },\n  ],\n  data: [\n    {\n      tag_name: 'AI',\n      page_count: 1,\n    },\n    {\n      tag_name: 'mysql',\n      page_count: 5,\n    },\n    {\n      tag_name: 'docker',\n      page_count: 7,\n    },\n    {\n      tag_name: 'git',\n      page_count: 1,\n    },\n    {\n      tag_name: 'linux',\n      page_count: 10,\n    },\n    {\n      tag_name: 'vue',\n      page_count: 4,\n    },\n    {\n      tag_name: 'orm',\n      page_count: 1,\n    },\n    {\n      tag_name: 'jenkins',\n      page_count: 2,\n    },\n    {\n      tag_name: 'nodejs',\n      page_count: 1,\n    },\n    {\n      tag_name: 'typescript',\n      page_count: 1,\n    },\n    {\n      tag_name: 'nginx',\n      page_count: 5,\n    },\n    {\n      tag_name: 'axios',\n      page_count: 1,\n    },\n  ],\n}\n```",
+      "created_at": "2026-01-03T20:15:47.832453"
+    },
+    {
+      "id": "msg_40e0308b4f4c",
+      "conversation_id": "conv_663b047546ba",
+      "role": "user",
+      "content": "畫圖",
+      "created_at": "2026-01-03T20:15:55.822960"
+    },
+    {
+      "id": "msg_bd4832a7133c",
+      "conversation_id": "conv_663b047546ba",
+      "role": "assistant",
+      "content": "已根據您的要求重新生成圖表\n\n**查詢結果：** 共 12 條記錄\n\n```table\noption = {\n  columns: [\n    {\n      label: 'tag_name',\n      prop: 'tag_name',\n      width: 80,\n    },\n    {\n      label: 'page_count',\n      prop: 'page_count',\n      width: 80,\n    },\n  ],\n  data: [\n    {\n      tag_name: 'AI',\n      page_count: 1,\n    },\n    {\n      tag_name: 'mysql',\n      page_count: 5,\n    },\n    {\n      tag_name: 'docker',\n      page_count: 7,\n    },\n    {\n      tag_name: 'git',\n      page_count: 1,\n    },\n    {\n      tag_name: 'linux',\n      page_count: 10,\n    },\n    {\n      tag_name: 'vue',\n      page_count: 4,\n    },\n    {\n      tag_name: 'orm',\n      page_count: 1,\n    },\n    {\n      tag_name: 'jenkins',\n      page_count: 2,\n    },\n    {\n      tag_name: 'nodejs',\n      page_count: 1,\n    },\n    {\n      tag_name: 'typescript',\n      page_count: 1,\n    },\n    {\n      tag_name: 'nginx',\n      page_count: 5,\n    },\n    {\n      tag_name: 'axios',\n      page_count: 1,\n    },\n  ],\n}\n```\n\n**數據可視化：**\n\n```chart\noption = {\n  type: 'line',\n  data: [\n    {\n      name: 'page_count',\n      data: [1, 5, 7, 1, 10, 4, 1, 2, 1, 1, 5, 1],\n    },\n  ],\n  xAxis: {\n    type: 'category',\n    data: ['AI', 'mysql', 'docker', 'git', 'linux', 'vue', 'orm', 'jenkins', 'nodejs', 'typescript', 'nginx', 'axios'],\n  },\n  yAxis: {\n    type: 'value',\n  },\n}\n```",
+      "created_at": "2026-01-03T20:15:57.062920"
+    },
+    {
+      "id": "msg_c1977dbd2f3c",
+      "conversation_id": "conv_663b047546ba",
+      "role": "user",
+      "content": "bar",
+      "created_at": "2026-01-03T20:16:09.385397"
+    },
+    {
+      "id": "msg_872586117e84",
+      "conversation_id": "conv_663b047546ba",
+      "role": "assistant",
+      "content": "已根據您的要求重新生成圖表\n\n**查詢結果：** 共 12 條記錄\n\n```table\noption = {\n  columns: [\n    {\n      label: 'tag_name',\n      prop: 'tag_name',\n      width: 80,\n    },\n    {\n      label: 'page_count',\n      prop: 'page_count',\n      width: 80,\n    },\n  ],\n  data: [\n    {\n      tag_name: 'AI',\n      page_count: 1,\n    },\n    {\n      tag_name: 'mysql',\n      page_count: 5,\n    },\n    {\n      tag_name: 'docker',\n      page_count: 7,\n    },\n    {\n      tag_name: 'git',\n      page_count: 1,\n    },\n    {\n      tag_name: 'linux',\n      page_count: 10,\n    },\n    {\n      tag_name: 'vue',\n      page_count: 4,\n    },\n    {\n      tag_name: 'orm',\n      page_count: 1,\n    },\n    {\n      tag_name: 'jenkins',\n      page_count: 2,\n    },\n    {\n      tag_name: 'nodejs',\n      page_count: 1,\n    },\n    {\n      tag_name: 'typescript',\n      page_count: 1,\n    },\n    {\n      tag_name: 'nginx',\n      page_count: 5,\n    },\n    {\n      tag_name: 'axios',\n      page_count: 1,\n    },\n  ],\n}\n```",
+      "created_at": "2026-01-03T20:16:10.512131"
+    },
+    {
+      "id": "msg_76d489cc9447",
+      "conversation_id": "conv_663b047546ba",
+      "role": "user",
+      "content": "bar",
+      "created_at": "2026-01-03T20:25:29.778470"
+    },
+    {
+      "id": "msg_f009e6c82511",
+      "conversation_id": "conv_663b047546ba",
+      "role": "assistant",
+      "content": "已根據您的要求重新生成圖表\n\n**查詢結果：** 共 12 條記錄\n\n```table\noption = {\n  columns: [\n    {\n      label: 'tag_name',\n      prop: 'tag_name',\n      width: 80,\n    },\n    {\n      label: 'page_count',\n      prop: 'page_count',\n      width: 80,\n    },\n  ],\n  data: [\n    {\n      tag_name: 'AI',\n      page_count: 1,\n    },\n    {\n      tag_name: 'mysql',\n      page_count: 5,\n    },\n    {\n      tag_name: 'docker',\n      page_count: 7,\n    },\n    {\n      tag_name: 'git',\n      page_count: 1,\n    },\n    {\n      tag_name: 'linux',\n      page_count: 10,\n    },\n    {\n      tag_name: 'vue',\n      page_count: 4,\n    },\n    {\n      tag_name: 'orm',\n      page_count: 1,\n    },\n    {\n      tag_name: 'jenkins',\n      page_count: 2,\n    },\n    {\n      tag_name: 'nodejs',\n      page_count: 1,\n    },\n    {\n      tag_name: 'typescript',\n      page_count: 1,\n    },\n    {\n      tag_name: 'nginx',\n      page_count: 5,\n    },\n    {\n      tag_name: 'axios',\n      page_count: 1,\n    },\n  ],\n}\n```",
+      "created_at": "2026-01-03T20:25:30.715326"
+    },
+    {
+      "id": "msg_12798de8efe0",
+      "conversation_id": "conv_663b047546ba",
+      "role": "user",
+      "content": "查詢 page_count 大於 5 的記錄中，tag_name 的分佈情況如何？",
+      "created_at": "2026-01-03T20:25:45.121575"
+    },
+    {
+      "id": "msg_0a8490757911",
+      "conversation_id": "conv_663b047546ba",
+      "role": "assistant",
+      "content": "",
+      "created_at": "2026-01-03T20:25:51.055579"
+    },
+    {
+      "id": "msg_37381d1c43c8",
+      "conversation_id": "conv_663b047546ba",
+      "role": "user",
+      "content": "查詢 page_count 大於 5 的記錄中，各個 tag_name 的平均 page_count 是多少？",
+      "created_at": "2026-01-03T20:25:57.002297"
+    },
+    {
+      "id": "msg_803621dae975",
+      "conversation_id": "conv_663b047546ba",
+      "role": "assistant",
+      "content": "",
+      "created_at": "2026-01-03T20:26:02.340040"
+    }
+  ]
+}
